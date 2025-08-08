@@ -1,11 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mechatronics Study App</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        h1 { color: #2c3e50; }
+        .question { font-size: 1.2em; margin: 20px 0; }
+        button {
+            padding: 10px 20px; margin: 5px;
+            border: none; border-radius: 5px;
+            background-color: #3498db; color: white; font-size: 1em;
+        }
+        button:hover { background-color: #2980b9; }
+        #result { font-weight: bold; margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h1>🚀 It works!</h1>
-    <p>If you see this, GitHub Pages is running.</p>
+
+    <h1>Mechatronics Study App</h1>
+    <div id="quiz-container">
+        <div id="question" class="question"></div>
+        <div id="answers"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "What does PLC stand for?", answers: ["Programmable Logic Controller", "Power Line Communication", "Process Level Control"], correct: 0 },
+            { question: "Which sensor detects distance?", answers: ["Ultrasonic Sensor", "Thermistor", "Microphone"], correct: 0 },
+            { question: "What is Ohm's Law formula?", answers: ["V = IR", "P = IV", "E = mc²"], correct: 0 }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            if (currentQuestion >= quizData.length) {
+                document.getElementById("quiz-container").innerHTML = "<h2>Quiz Completed!</h2>";
+                return;
+            }
+            const q = quizData[currentQuestion];
+            document.getElementById("question").innerText = q.question;
+            const answersDiv = document.getElementById("answers");
+            answersDiv.innerHTML = "";
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement("button");
+                btn.innerText = answer;
+                btn.onclick = () => checkAnswer(index);
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected) {
+            const q = quizData[currentQuestion];
+            const result = document.getElementById("result");
+            if (selected === q.correct) {
+                result.innerText = "✅ Correct!";
+            } else {
+                result.innerText = "❌ Wrong!";
+            }
+            currentQuestion++;
+            setTimeout(() => {
+                result.innerText = "";
+                loadQuestion();
+            }, 1000);
+        }
+
+        loadQuestion();
+    </script>
+
 </body>
 </html>
